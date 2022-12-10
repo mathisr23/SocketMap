@@ -163,3 +163,16 @@ header{
     text-decoration: none;
     cursor: pointer;
   }
+
+  .restausAPI{
+    list-style: none;
+    color: #333;
+    margin-top: 2em;
+    text-align: left;
+  }
+
+  .restauName{
+    font-size: 15px;
+    color: red;
+    text-align: left;
+  }
