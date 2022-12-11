@@ -76,41 +76,6 @@ var markerArrive = L.marker([48.842999, 2.320904], {
 }).addTo(map);
 
 
-//Fonction pour que la ligne suive le marqueur à la fin du drag
-var lat1;
-var lon1;
-var lat2;
-var lon2;
-var lat3;
-var lon3;
-var latArr;
-var lonArr;
-
-//Au déplacement d'un marker, appler la fonction changePolyline
-/* marker1.on('dragend', function (e) {
-    // document.getElementById('latitude1').value = marker1.getLatLng().lat;
-    // document.getElementById('longitude1').value = marker1.getLatLng().lng;
-    changePolyline(marker1);
-}); */
-
-/* marker2.on('dragend', function (e) {
-    // document.getElementById('latitude2').value = marker2.getLatLng().lat;
-    // document.getElementById('longitude2').value = marker2.getLatLng().lng;
-    changePolyline(marker2);
-}); */
-
-/* marker3.on('dragend', function (e) {
-    // document.getElementById('latitude3').value = marker3.getLatLng().lat;
-    // document.getElementById('longitude3').value = marker3.getLatLng().lng;
-    changePolyline(marker3);
-}); */
-
-/* markerArrive.on('dragend', function (e) {
-    // document.getElementById('latitude4').value = markerArrive.getLatLng().lat;
-    // document.getElementById('longitude4').value = markerArrive.getLatLng().lng;
-}); */
-
-
 
 //Utilisation de l'API opendata.paris.fr pour obtenir une liste des restaurants de Paris
 requestRestos.open(
@@ -183,20 +148,14 @@ function initMap() {
     document.getElementById('depart1').innerHTML = var_heureDepart1;
     document.getElementById('depart2').innerHTML = var_heureDepart2;
     document.getElementById('depart3').innerHTML = var_heureDepart3;
+
+    var_tempsRestant1 = Math.round(var_distance1 * 60 / 5000);
+    var_tempsRestant2 = Math.round(var_distance2 * 60 / 5000);
+    var_tempsRestant3 = Math.round(var_distance3 * 60 / 5000);
+    document.getElementById('tempsRestant1').innerHTML = var_tempsRestant1;
+    document.getElementById('tempsRestant2').innerHTML = var_tempsRestant2;
+    document.getElementById('tempsRestant3').innerHTML = var_tempsRestant3;
 }
-
-
-//Popup marker
-// var popup = L.popup();
-
-// marker1.bindPopup("John").openPopup();
-// marker2.bindPopup("Bob").openPopup();
-// marker3.bindPopup("Patrick").openPopup();
-// markerArrive.bindPopup("Arrivée").openPopup();
-
-// restau1.bindPopup("Restaurant Le central").openPopup();
-// restau2.bindPopup("Restaurant le Lanakal").openPopup();
-// restau3.bindPopup("Restaurant la Romanella").openPopup();
 
 
 //Map
@@ -215,76 +174,6 @@ function onMapClick(e) {
 }
 
 map.on('click', onMapClick);
-
-
-// function getDistance(origin, destination) {
-//     // return distance in meters
-//     var lon1 = toRadian(origin[1]),
-//         lat1 = toRadian(origin[0]),
-//         lon2 = toRadian(destination[1]),
-//         lat2 = toRadian(destination[0]);
-
-//     var deltaLat = lat2 - lat1;
-//     var deltaLon = lon2 - lon1;
-
-//     var a = Math.pow(Math.sin(deltaLat/2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon/2), 2);
-//     var c = 2 * Math.asin(Math.sqrt(a));
-//     var EARTH_RADIUS = 6371;
-//     return c * EARTH_RADIUS * 1000;
-// }
-// function toRadian(degree) {
-//     return degree*Math.PI/180;
-// }
-// var distance = getDistance([lat1, lng1], [lat2, lng2])
-
-
-// Fonction de mise à jour de la polyline appelée au moment du dragend d'un marker draggable
-/* function changePolyline(e) {
-
-    if (e == markerArrive) {
-
-    } else {
-
-        lat_e = e.getLatLng().lat;
-        lon_e = e.getLatLng().lng;
-        switch (e) {
-
-            case marker1:
-                latlngs_e = [
-                    [lat_e, lon_e],
-                    [48.839301, 2.30718],
-                    [48.842999, 2.320904]
-                ];
-                polyline_e = L.polyline(latlngs_e, {
-                    color: 'black'
-                }).addTo(map);
-                break;
-
-            case marker2:
-                latlngs_e = [
-                    [lat_e, lon_e],
-                    [48.847869, 2.327529],
-                    [48.842999, 2.320904]
-                ];
-                polyline_e = L.polyline(latlngs_e, {
-                    color: 'blue'
-                }).addTo(map);
-                break;
-
-            case marker3:
-                latlngs_e = [
-                    [lat_e, lon_e],
-                    [48.840346, 2.359412],
-                    [48.842999, 2.320904]
-                ];
-                polyline_e = L.polyline(latlngs_e, {
-                    color: 'orange'
-                }).addTo(map);
-                break;
-        }
-    }
-
-} */
 
 // Fonction de mise à jour de la polyline appelée au moment du dragend d'un marker draggable
 
@@ -397,7 +286,7 @@ function dragStopArrivee_F(e) {
 
 
 
-function degreesToRadians(degrees){
+function degreesToRadians(degrees) {
     return degrees * Math.PI / 180;
 }
 
@@ -406,24 +295,19 @@ function computeDistance(lat1, lng1, lat2, lng2) {
     let R = 6378137;
     let dLat = degreesToRadians(lat2 - lat1);
     let dLong = degreesToRadians(lng2 - lng1);
-    let a = Math.sin(dLat / 2)
-            *
-            Math.sin(dLat / 2) 
-            +
-            Math.cos(degreesToRadians(lat1)) 
-            * 
-            Math.cos(degreesToRadians(lat1)) 
-            *
-            Math.sin(dLong / 2) 
-            * 
-            Math.sin(dLong / 2);
+    let a = Math.sin(dLat / 2) *
+        Math.sin(dLat / 2) +
+        Math.cos(degreesToRadians(lat1)) *
+        Math.cos(degreesToRadians(lat1)) *
+        Math.sin(dLong / 2) *
+        Math.sin(dLong / 2);
 
     let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     let distance = R * c;
 
     return distance;
 
-  }
+}
 
 // Chargement de la page avec appel de la fonction initMap()
 window.onload = function () {

@@ -22,34 +22,7 @@
 </head>
 
 <body>
-  <!-- <form>
-        <h3>Marker1</h3>
-        <label for="latitude1">Latitude:</label>
-        <input id="latitude1" type="text" />
-        <label for="longitude1">Longitude:</label>
-        <input id="longitude1" type="text" />
-      </form>
-      <form>
-        <h3>Marker2</h3>
-        <label for="latitude2">Latitude:</label>
-        <input id="latitude2" type="text" />
-        <label for="longitude2">Longitude:</label>
-        <input id="longitude2" type="text" />
-      </form>
-      <form>
-        <h3>Marker3</h3>
-        <label for="latitude3">Latitude:</label>
-        <input id="latitude3" type="text" />
-        <label for="longitude3">Longitude:</label>
-        <input id="longitude3" type="text" />
-      </form>
-      <form>
-        <h3>Arrivée</h3>
-        <label for="latitude4">Latitude:</label>
-        <input id="latitude4" type="text" />
-        <label for="longitude4">Longitude:</label>
-        <input id="longitude4" type="text" />
-      </form> -->
+
   <header>
     <p>Arrivée à 13h :</p>
     <p>John doit partir à 12h<span id="depart1"></span>. Distance: <span id="distance1"></span> m</p>
@@ -77,26 +50,30 @@
         <button id="personne1">John</button>
         <div id="myModal1" class="modal">
           <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close1">&times;</span>
             <p>John</p>
             <p>Restaurant Japonais</p>
-            <p>arrive dans 15 min</p>
+            <p>arrive dans <span id="tempsRestant1"></span> minutes</p>
           </div>
         </div>
 
         <button id="personne2">Bob</button>
         <div id="myModal2" class="modal">
           <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>Some text in the Modal..</p>
+            <span class="close2">&times;</span>
+            <p>Bob</p>
+            <p>Restaurant Indien</p>
+            <p>arrive dans <span id="tempsRestant2"></span> minutes</p>
           </div>
         </div>
 
         <button id="personne3">Patrick</button>
         <div id="myModal3" class="modal">
           <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>Some text in the Modal..</p>
+            <span class="close3">&times;</span>
+            <p>Patrick</p>
+            <p>Restaurant Libanais</p>
+            <p>arrive dans <span id="tempsRestant3"></span> minutes</p>
           </div>
         </div>
 
@@ -105,10 +82,11 @@
     </div>
   </section>
 
-  <ul id="messages"></ul>
-  <form id="form" action="">
-    <input id="input" autocomplete="off" /><button>Send</button>
+  <form>
+    <input type="text" id="m" />
+    <input type="submit" id="submitButton" value="submit" />
   </form>
+  <ul id="messages"></ul>
 
 
 
@@ -116,62 +94,140 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"
     integrity="sha512-YeeA/Qxn5hYdkukScTCNNOhTrv1C2RubAGButJ1rmgQwZf/HdRaCGl+JAVkqsqaNRaYNHdheiuKKuPf9mDcqKg=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script
-  src="https://code.jquery.com/jquery-3.6.1.min.js"
-  integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-  crossorigin="anonymous"></script>
-    
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
-    <script>
-      // Get the modal
-      var modal = document.getElementById("myModal1");
-      
-      // Get the button that opens the modal
-      var btn1 = document.getElementById("personne1");
-      
-      // Get the <span> element that closes the modal
-      var span = document.getElementsByClassName("close")[0];
-      
-      // When the user clicks the button, open the modal 
-      btn1.onclick = function() {
-        modal.style.display = "block";
-      }
-      
-      // When the user clicks on <span> (x), close the modal
-      span.onclick = function() {
-        modal.style.display = "none";
-      }
-      
-      // When the user clicks anywhere outside of the modal, close it
-      window.onclick = function(event) {
-        if (event.target == modal) {
-          modal.style.display = "none";
-        }
-      }
-      </script>
+
+  <script>
+    // Get the modal
+    var modal1 = document.getElementById("myModal1");
+    var modal2 = document.getElementById("myModal2");
+    var modal3 = document.getElementById("myModal3");
+
+    // Get the button that opens the modal
+    var btn1 = document.getElementById("personne1");
+    var btn2 = document.getElementById("personne2");
+    var btn3 = document.getElementById("personne3");
+
+    // Get the <span> element that closes the modal
+    var span1 = document.getElementsByClassName("close1")[0];
+    var span2 = document.getElementsByClassName("close2")[0];
+    var span3 = document.getElementsByClassName("close3")[0];
+
+    // When the user clicks the button, open the modal 
+    btn1.onclick = function () {
+      modal1.style.display = "block";
+    }
+    btn2.onclick = function () {
+      modal2.style.display = "block";
+    }
+    btn3.onclick = function () {
+      modal3.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span1.onclick = function () {
+      modal1.style.display = "none";
+    }
+    span2.onclick = function () {
+      modal2.style.display = "none";
+    }
+    span3.onclick = function () {
+      modal3.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      switch (event.target) {
+
+        case modal1:
+        modal1.style.display = "none";
+            break;
+
+        case modal2:
+        modal2.style.display = "none";
+            break;
+
+        case modal3:
+        modal3.style.display = "none";
+            break;
+        
+      } 
+    }
+  </script>
 
 
   <script>
     var socket = io('http://localhost:3000/');
 
-    var messages = document.getElementById('messages');
-    var form = document.getElementById('form');
-    var input = document.getElementById('input');
+    let userName = prompt("whats your name");
+    let room = prompt("room name");
+    let ID = "";
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      if (input.value) {
-        socket.emit('chat message', input.value);
-        input.value = '';
+    socket.emit("join room", {
+      username: userName,
+      roomName: room
+    });
+
+    socket.on('send data', (data) => {
+      ID = data.id;
+      console.log(" my ID:" + ID);
+    })
+
+    document.getElementById('m').focus()
+    //when form is submitted, capture the input value and then send it to server
+    document
+      .getElementsByTagName("form")[0]
+      .addEventListener("submit", function (event) {
+        event.preventDefault();
+        socket.emit("chat message", {
+          value: document.getElementById("m").value,
+          user: userName,
+
+        });
+
+        document.getElementById("m").value = "";
+      });
+    socket.on("chat message", (data) => {
+      console.log(data.data.user + ": " + data.id);
+      displayMessage(data);
+    });
+
+    function displayMessage(data) {
+      let authorClass = "";
+      let divClass = ""
+      //verify that the user ID and the message sent ID is similar 
+      if (data.id === ID) {
+        console.log("This person has sent a message")
+        authorClass = "me";
+        divClass = "myDiv";
+      } else {
+        authorClass = "you";
+        divClass = "yourDiv";
       }
-    });
+      const div = document.createElement("div");
+      div.className = divClass;
+      const li = document.createElement("li");
+      const p = document.createElement("p");
+      p.className = "time";
+      p.innerText = moment().format("hh:mm");
+      div.innerHTML =
+        '<p class="' +
+        authorClass +
+        '">' +
+        data.data.user +
+        "</p>" +
+        '<p class="message"> ' +
+        data.data.value +
+        "</p>";
+      div.appendChild(p);
+      li.appendChild(div);
 
-    socket.on('chat message', function (msg) {
-      var item = document.createElement('li');
-      item.textContent = msg;
-      messages.appendChild(item);
+      document.getElementById("messages").appendChild(li);
+      //scroll to the bottom
       window.scrollTo(0, document.body.scrollHeight);
-    });
+    }
   </script>
 </body>
 
