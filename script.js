@@ -169,6 +169,20 @@ function initMap() {
         )
 
     }
+
+    var_distance1 = Math.round(computeDistance(marker1.getLatLng().lat, marker1.getLatLng().lng, restau1.getLatLng().lat, restau1.getLatLng().lng) + computeDistance(restau1.getLatLng().lat, restau1.getLatLng().lng, markerArrive.getLatLng().lat, markerArrive.getLatLng().lng));
+    var_distance2 = Math.round(computeDistance(marker2.getLatLng().lat, marker2.getLatLng().lng, restau2.getLatLng().lat, restau2.getLatLng().lng) + computeDistance(restau2.getLatLng().lat, restau2.getLatLng().lng, markerArrive.getLatLng().lat, markerArrive.getLatLng().lng));
+    var_distance3 = Math.round(computeDistance(marker3.getLatLng().lat, marker3.getLatLng().lng, restau3.getLatLng().lat, restau3.getLatLng().lng) + computeDistance(restau3.getLatLng().lat, restau3.getLatLng().lng, markerArrive.getLatLng().lat, markerArrive.getLatLng().lng));
+    document.getElementById('distance1').innerHTML = var_distance1;
+    document.getElementById('distance2').innerHTML = var_distance2;
+    document.getElementById('distance3').innerHTML = var_distance3;
+
+    var_heureDepart1 = Math.round(60 - var_distance1 * 60 / 5000);
+    var_heureDepart2 = Math.round(60 - var_distance2 * 60 / 5000);
+    var_heureDepart3 = Math.round(60 - var_distance3 * 60 / 5000);
+    document.getElementById('depart1').innerHTML = var_heureDepart1;
+    document.getElementById('depart2').innerHTML = var_heureDepart2;
+    document.getElementById('depart3').innerHTML = var_heureDepart3;
 }
 
 
@@ -382,6 +396,34 @@ function dragStopArrivee_F(e) {
 }
 
 
+
+function degreesToRadians(degrees){
+    return degrees * Math.PI / 180;
+}
+
+function computeDistance(lat1, lng1, lat2, lng2) {
+    // The radius of the planet earth in meters
+    let R = 6378137;
+    let dLat = degreesToRadians(lat2 - lat1);
+    let dLong = degreesToRadians(lng2 - lng1);
+    let a = Math.sin(dLat / 2)
+            *
+            Math.sin(dLat / 2) 
+            +
+            Math.cos(degreesToRadians(lat1)) 
+            * 
+            Math.cos(degreesToRadians(lat1)) 
+            *
+            Math.sin(dLong / 2) 
+            * 
+            Math.sin(dLong / 2);
+
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    let distance = R * c;
+
+    return distance;
+
+  }
 
 // Chargement de la page avec appel de la fonction initMap()
 window.onload = function () {
