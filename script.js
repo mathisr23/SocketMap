@@ -18,19 +18,18 @@ var marker3 = L.marker([48.849229, 2.338925], {
 }).addTo(map);
 
 
-
 // Déclaration des coordonnées pour les 3 polylines
-var latlngs1 = [
+let latlngs1 = [
     [48.839865, 2.299919],
     [48.839301, 2.30718], //Le central - Paris
     [48.842999, 2.320904]
 ];
-var latlngs2 = [
+let latlngs2 = [
     [48.849823, 2.316999],
     [48.847869, 2.327529], //Le Lakanal
     [48.842999, 2.320904]
 ];
-var latlngs3 = [
+let latlngs3 = [
     [48.849229, 2.338925],
     [48.840346, 2.359412], //La Romanella
     [48.842999, 2.320904]
@@ -75,6 +74,18 @@ var markerArrive = L.marker([48.842999, 2.320904], {
     icon: myIconArrivee
 }).addTo(map);
 
+// Variables distance + temps de parcours + heure de depart
+var var_distance1 = 0;
+var var_distance2 = 0;
+var var_distance3 = 0;
+
+var var_heureDepart1 = 0;
+var var_heureDepart2 = 0;
+var var_heureDepart3 = 0;
+
+var var_tempsRestant1 = 0;
+var var_tempsRestant2 = 0;
+var var_tempsRestant3 = 0;
 
 
 //Utilisation de l'API opendata.paris.fr pour obtenir une liste des restaurants de Paris
@@ -134,27 +145,8 @@ function initMap() {
         )
 
     }
+    computeDistanceAndTime();
 
-    var_distance1 = Math.round(computeDistance(marker1.getLatLng().lat, marker1.getLatLng().lng, restau1.getLatLng().lat, restau1.getLatLng().lng) + computeDistance(restau1.getLatLng().lat, restau1.getLatLng().lng, markerArrive.getLatLng().lat, markerArrive.getLatLng().lng));
-    var_distance2 = Math.round(computeDistance(marker2.getLatLng().lat, marker2.getLatLng().lng, restau2.getLatLng().lat, restau2.getLatLng().lng) + computeDistance(restau2.getLatLng().lat, restau2.getLatLng().lng, markerArrive.getLatLng().lat, markerArrive.getLatLng().lng));
-    var_distance3 = Math.round(computeDistance(marker3.getLatLng().lat, marker3.getLatLng().lng, restau3.getLatLng().lat, restau3.getLatLng().lng) + computeDistance(restau3.getLatLng().lat, restau3.getLatLng().lng, markerArrive.getLatLng().lat, markerArrive.getLatLng().lng));
-    document.getElementById('distance1').innerHTML = var_distance1;
-    document.getElementById('distance2').innerHTML = var_distance2;
-    document.getElementById('distance3').innerHTML = var_distance3;
-
-    var_heureDepart1 = Math.round(60 - var_distance1 * 60 / 5000);
-    var_heureDepart2 = Math.round(60 - var_distance2 * 60 / 5000);
-    var_heureDepart3 = Math.round(60 - var_distance3 * 60 / 5000);
-    document.getElementById('depart1').innerHTML = var_heureDepart1;
-    document.getElementById('depart2').innerHTML = var_heureDepart2;
-    document.getElementById('depart3').innerHTML = var_heureDepart3;
-
-    var_tempsRestant1 = Math.round(var_distance1 * 60 / 5000);
-    var_tempsRestant2 = Math.round(var_distance2 * 60 / 5000);
-    var_tempsRestant3 = Math.round(var_distance3 * 60 / 5000);
-    document.getElementById('tempsRestant1').innerHTML = var_tempsRestant1;
-    document.getElementById('tempsRestant2').innerHTML = var_tempsRestant2;
-    document.getElementById('tempsRestant3').innerHTML = var_tempsRestant3;
 }
 
 
@@ -253,11 +245,26 @@ function dragStop_F(e) {
 
     // Delete key from marker instance
     // delete this.polylineLatlng;
+    switch (this) {
+
+        case marker1:
+            latlngs1 = latlngs_e;
+            break;
+
+        case marker2:
+            latlngs2 = latlngs_e;
+            break;
+
+        case marker3:
+            latlngs3 = latlngs_e;
+            break;
+
+    }
+
     delete this.latlngs_e;
 }
 
 // Functions to manage move of target marker
-
 function dragArrivee_F(e) {
 
     let latlngs_e = [latlngs1, latlngs2, latlngs3];
@@ -267,9 +274,8 @@ function dragArrivee_F(e) {
         // Replace the old latlng with the new
         // latlngs.splice(this.polylineLatlng, 1, latlng);
         latlngs_i.splice(2, 1, latlng);
-
-
     });
+
     // Update the polyline with the new latlngs
     polyline1.setLatLngs(latlngs1);
     polyline2.setLatLngs(latlngs2);
@@ -278,13 +284,10 @@ function dragArrivee_F(e) {
 }
 
 function dragStopArrivee_F(e) {
-
     // Delete key from marker instance
     // delete this.polylineLatlng;
     delete this.latlngs_e;
 }
-
-
 
 function degreesToRadians(degrees) {
     return degrees * Math.PI / 180;
@@ -307,6 +310,30 @@ function computeDistance(lat1, lng1, lat2, lng2) {
 
     return distance;
 
+}
+
+// Calcul distance + temps de parcours + heure de depart
+function computeDistanceAndTime() {
+    var_distance1 = Math.round(computeDistance(marker1.getLatLng().lat, marker1.getLatLng().lng, restau1.getLatLng().lat, restau1.getLatLng().lng) + computeDistance(restau1.getLatLng().lat, restau1.getLatLng().lng, markerArrive.getLatLng().lat, markerArrive.getLatLng().lng));
+    var_distance2 = Math.round(computeDistance(marker2.getLatLng().lat, marker2.getLatLng().lng, restau2.getLatLng().lat, restau2.getLatLng().lng) + computeDistance(restau2.getLatLng().lat, restau2.getLatLng().lng, markerArrive.getLatLng().lat, markerArrive.getLatLng().lng));
+    var_distance3 = Math.round(computeDistance(marker3.getLatLng().lat, marker3.getLatLng().lng, restau3.getLatLng().lat, restau3.getLatLng().lng) + computeDistance(restau3.getLatLng().lat, restau3.getLatLng().lng, markerArrive.getLatLng().lat, markerArrive.getLatLng().lng));
+    document.getElementById('distance1').innerHTML = var_distance1;
+    document.getElementById('distance2').innerHTML = var_distance2;
+    document.getElementById('distance3').innerHTML = var_distance3;
+
+    var_heureDepart1 = Math.round(60 - var_distance1 * 60 / 5000);
+    var_heureDepart2 = Math.round(60 - var_distance2 * 60 / 5000);
+    var_heureDepart3 = Math.round(60 - var_distance3 * 60 / 5000);
+    document.getElementById('depart1').innerHTML = var_heureDepart1;
+    document.getElementById('depart2').innerHTML = var_heureDepart2;
+    document.getElementById('depart3').innerHTML = var_heureDepart3;
+
+    var_tempsRestant1 = Math.round(var_distance1 * 60 / 5000);
+    var_tempsRestant2 = Math.round(var_distance2 * 60 / 5000);
+    var_tempsRestant3 = Math.round(var_distance3 * 60 / 5000);
+    document.getElementById('tempsRestant1').innerHTML = var_tempsRestant1;
+    document.getElementById('tempsRestant2').innerHTML = var_tempsRestant2;
+    document.getElementById('tempsRestant3').innerHTML = var_tempsRestant3;
 }
 
 // Chargement de la page avec appel de la fonction initMap()

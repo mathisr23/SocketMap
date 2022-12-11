@@ -5,20 +5,20 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
   <link rel="stylesheet" href="style.css">
+
   <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin="">
+  </script>
 
+  <title>Map Mathis Riviere</title>
 
-  <title>Map</title>
-  <style>
-
-  </style>
 </head>
 
 <body>
@@ -36,13 +36,13 @@
   <section id="app">
     <div id="restau">
       <h2>Liste des restaurants</h2>
-
       <div class="col-md-4 text-center mt-3">
         <ul id="resto"></ul>
       </div>
     </div>
     <div id="map">
     </div>
+
     <div id="rooms">
       <h2>Rooms</h2>
       <div class="buttonsChat">
@@ -77,18 +77,17 @@
           </div>
         </div>
 
-
       </div>
+
+      <form>
+        <input type="text" id="m" />
+        <input type="submit" id="submitButton" value="submit" />
+      </form>
+    
+      <ul id="messages"></ul>
+
     </div>
   </section>
-
-  <form>
-    <input type="text" id="m" />
-    <input type="submit" id="submitButton" value="submit" />
-  </form>
-  <ul id="messages"></ul>
-
-
 
   <script src="./script.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"
@@ -96,7 +95,7 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"
     integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
 
   <script>
@@ -142,21 +141,20 @@
       switch (event.target) {
 
         case modal1:
-        modal1.style.display = "none";
-            break;
+          modal1.style.display = "none";
+          break;
 
         case modal2:
-        modal2.style.display = "none";
-            break;
+          modal2.style.display = "none";
+          break;
 
         case modal3:
-        modal3.style.display = "none";
-            break;
-        
-      } 
+          modal3.style.display = "none";
+          break;
+
+      }
     }
   </script>
-
 
   <script>
     var socket = io('http://localhost:3000/');
@@ -218,7 +216,7 @@
         '">' +
         data.data.user +
         "</p>" +
-        '<p class="message"> ' +
+        '<p class="message"> ' + 
         data.data.value +
         "</p>";
       div.appendChild(p);

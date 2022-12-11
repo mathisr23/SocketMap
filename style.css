@@ -163,7 +163,9 @@ header {
 }
 
 /* The Close Button */
-.close1, .close2, .close3 {
+.close1,
+.close2,
+.close3 {
     color: #aaaaaa;
     float: right;
     font-size: 28px;
@@ -175,8 +177,7 @@ header {
 .close2:hover,
 .close2:focus,
 .close3:hover,
-.close3:focus
- {
+.close3:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
